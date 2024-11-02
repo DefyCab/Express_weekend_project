@@ -2,9 +2,10 @@ import express from "express";
 import { createStudentsFeature } from "./features";
 import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
+import { Student } from "./features";
 
 const createDB = () => {
-  const STUDENTS = [
+  const students: Student[] = [
     {
       id: uuidv4(),
       name: "Love",
@@ -12,7 +13,7 @@ const createDB = () => {
   ];
 
   return {
-    getAll: async () => STUDENTS,
+    getAll: () => students,
   };
 };
 
