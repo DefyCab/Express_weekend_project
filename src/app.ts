@@ -4,7 +4,7 @@ import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
 
 const createDB = () => {
-  const Students = [
+  const STUDENTS = [
     {
       id: uuidv4(),
       name: "Love",
@@ -12,7 +12,7 @@ const createDB = () => {
   ];
 
   return {
-    getAll: async () => Students,
+    getAll: async () => STUDENTS,
   };
 };
 
@@ -24,7 +24,7 @@ export const createApp = () => {
   app.use(express.json());
   app.use(cors());
 
-  const studentsFeature = createStudentsFeature();
+  const studentsFeature = createStudentsFeature(db);
 
   app.get("/", (req, res) => {
     res.json([]);
