@@ -9,10 +9,6 @@ export const createApp = () => {
 
   app.use(cors());
 
-  app.get("/status", (req, res) => {
-    res.json({ status: "ready" });
-  });
-
   const studentsFeature = createStudentsFeature();
 
   app.get("/", (req, res) => {

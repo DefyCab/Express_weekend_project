@@ -3,15 +3,11 @@ import { createApp } from "./app";
 import request from "supertest";
 import { deepEqual } from "node:assert/strict";
 
-test("GET /status", async () => {
+test("GET /api/v1/students body", async () => {
   const app = createApp();
 
-  app.get("/status", (req, res) => {
-    res.json({ status: "ready" });
-  });
-
-  const result = await request(app).get("/status");
+  const result = await request(app).get("/api/v1/students");
 
   deepEqual(result.status, 200);
-  deepEqual(result.body, { status: "ready" });
+  deepEqual(result.body, []);
 });
