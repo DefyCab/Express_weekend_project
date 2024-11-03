@@ -1,19 +1,23 @@
 import express from "express";
 import { createStudentsFeature } from "./features";
 import cors from "cors";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { Student } from "./features";
 
 const createDB = () => {
   const students: Student[] = [
     {
-      id: uuidv4(),
+      id: "bdb4a301-c5b9-492c-bdb2-daded15e7198",
       name: "Love",
     },
   ];
 
   return {
     getAll: () => students,
+
+    getStudentById: (id: string) => {
+      return students.find((student) => student.id === id);
+    },
   };
 };
 
