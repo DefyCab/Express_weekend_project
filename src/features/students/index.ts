@@ -21,14 +21,14 @@ export const createStudentsFeature = (db: any) => {
 
       router.get("/:id", async (req, res) => {
         const { id } = req.params;
-        const student: Student = await db.getStudentById(id);
+        const student: Student = await db.getOneStudent(id);
         res.json(student);
       });
 
       router.post("/", async (req, res) => {
         const student = StudentSchema.safeParse({
           id: req.body.id,
-          name: 2,
+          name: req.body.name,
         });
 
         if (student.success === true) {

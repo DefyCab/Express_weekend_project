@@ -10,14 +10,17 @@ const createDB = () => {
   return {
     getAll: () => students,
 
-    getStudentById: (id: string) => {
+    getOneStudent: (id: string) => {
       return students.find((student) => student.id === id);
     },
 
     createStudent: (student: Student) => {
       students = [...students, student];
-      console.log(students)
       return students;
+    },
+
+    deleteStudent: (id: string) => {
+      return [];
     },
   };
 };

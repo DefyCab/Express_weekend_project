@@ -13,7 +13,7 @@ describe("Students feature methods", () => {
     deepEqual(result.body.length, 2);
   });
 
-  test("getStudentById", async () => {
+  test("getOneStudent", async () => {
     const app = createApp();
 
     const id = "bdb4a301-c5b9-492c-bdb2-daded15e7198";
