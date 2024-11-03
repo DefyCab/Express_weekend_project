@@ -10,7 +10,7 @@ describe("Students feature methods", () => {
     const result = await request(app).get("/api/v1/students");
 
     deepEqual(result.status, 200);
-    deepEqual(result.body.length, 1);
+    deepEqual(result.body.length, 2);
   });
 
   test("getStudentById", async () => {
@@ -21,5 +21,7 @@ describe("Students feature methods", () => {
     const result = await request(app).get(`/api/v1/students/${id}`);
 
     deepEqual(result.status, 200);
+    deepEqual(result.body.name, "Love")
+
   });
 });

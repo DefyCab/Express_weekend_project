@@ -8,20 +8,22 @@ const StudentSchema = z.object({
 
 export type Student = z.infer<typeof StudentSchema>;
 
-export const createStudentsFeature = (db :any) => {
+export const createStudentsFeature = (db: any) => {
   return {
     getRouter() {
       const router = Router();
 
       router.get("/", async (req, res) => {
-        const students: Student = await db.getAll();
+        const students: Student[] = await db.getAll();
         res.json(students);
       });
 
-      router.get("/:id"), async (req, res) => {
-        const student: Student = await db.getStudentById()
-        res.json(student)
-      }
+      router.get("/:id", async (req, res) => {
+        const { id } = req.params;
+        console.log(id);
+        const student: Student = await db.getStudentById(id);
+        res.json(student);
+      });
 
       return router;
     },
