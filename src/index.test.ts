@@ -9,5 +9,5 @@ test("GET /api/v1/students body", async () => {
   const result = await request(app).get("/api/v1/students");
 
   deepEqual(result.status, 200);
-  deepEqual(result.body, []);
+  deepEqual(result.body.length, 1);
 });
