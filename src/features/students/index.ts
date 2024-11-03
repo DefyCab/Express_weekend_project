@@ -31,8 +31,10 @@ export const createStudentsFeature = (db: any) => {
         //   name: req.query.name,
         // });
 
+        const id = uuidv4()
+
         const student = {
-          id: uuidv4(),
+          id: req.body.id,
           name: req.body.name,
         };
 
