@@ -26,20 +26,16 @@ export const createStudentsFeature = (db: any) => {
       });
 
       router.post("/", async (req, res) => {
-        // const student = StudentSchema.safeParse({
-        //   id: uuidv4(),
-        //   name: req.query.name,
-        // });
-
-        const id = uuidv4()
-
-        const student = {
+        const student = StudentSchema.safeParse({
           id: req.body.id,
-          name: req.body.name,
-        };
+          name: 2,
+        });
 
-        const students = await db.createStudent(student);
-        res.json(students);
+        if (student.success === true) {
+          const students = await db.createStudent(student.data);
+          res.json(students);
+        }
+        res.json(student.error);
       });
 
       return router;
