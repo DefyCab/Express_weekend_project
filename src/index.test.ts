@@ -24,4 +24,6 @@ describe("Students feature methods", () => {
     deepEqual(result.body.name, "Love")
 
   });
+
+  test("createStudent")
 });
