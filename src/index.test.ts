@@ -37,6 +37,7 @@ describe("Students feature methods", () => {
       .send(student)
       .set("Content-Type", "application/json");
 
+    deepEqual(result.status, 201);
     deepEqual(result.body[result.body.length - 1], {
       id: "555555f2-7bb1-416c-bae5-fd8f339ec5a5",
       name: "Klara Södergren",

@@ -16,12 +16,14 @@ export const createStudentsFeature = (db: any) => {
 
       router.get("/", async (req, res) => {
         const students: Student[] = await db.getAll();
+        res.status(200);
         res.json(students);
       });
 
       router.get("/:id", async (req, res) => {
         const { id } = req.params;
         const student: Student = await db.getOneStudent(id);
+
         res.json(student);
       });
 
@@ -33,14 +35,15 @@ export const createStudentsFeature = (db: any) => {
 
         if (student.success === true) {
           const students = await db.createStudent(student.data);
+          res.status(201);
           res.json(students);
+        } else {
+          res.json(student.error);
         }
-        res.json(student.error);
       });
 
       router.delete("/:id", async (req, res) => {
         const { id } = req.params;
-        console.log(id)
         const students = await db.deleteStudent(id);
         res.json(students);
       });
