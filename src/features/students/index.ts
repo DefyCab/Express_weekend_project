@@ -38,6 +38,13 @@ export const createStudentsFeature = (db: any) => {
         res.json(student.error);
       });
 
+      router.delete("/:id", async (req, res) => {
+        const { id } = req.params;
+        console.log(id)
+        const students = await db.deleteStudent(id);
+        res.json(students);
+      });
+
       return router;
     },
   };

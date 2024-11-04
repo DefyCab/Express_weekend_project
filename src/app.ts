@@ -20,7 +20,11 @@ const createDB = () => {
     },
 
     deleteStudent: (id: string) => {
-      return [];
+      const studentToRemove = students.findIndex(
+        (student) => student.id === id
+      );
+      students = students.slice(studentToRemove, (students.length - 1));
+      return students;
     },
   };
 };
