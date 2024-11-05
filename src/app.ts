@@ -4,6 +4,7 @@ import cors from "cors";
 import { Student } from "./features";
 import { StudentsTable } from "./drizzle/schema";
 import { db } from "./drizzle/db";
+import { eq } from "drizzle-orm";
 
 const createDB = () => {
   return {
@@ -17,22 +18,13 @@ const createDB = () => {
       await db.insert(StudentsTable).values({
         name: student.name,
         email: student.email,
-        age: student.age
-      })
-    }
+        age: student.age,
+      });
+    },
 
-    //   createStudent: (student: Student) => {
-    //     students = [...students, student];
-    //     return students;
-    //   },
-
-    //   deleteStudent: (id: string) => {
-    //     const studentToRemove = students.findIndex(
-    //       (student) => student.id === id
-    //     );
-    //     students = students.slice(studentToRemove, students.length - 1);
-    //     return students;
-    //   },
+    deleteStudent: async (id: string) => {
+      await db.delete(StudentsTable).where(eq(StudentsTable.id, id));
+    },
   };
 };
 
@@ -42,7 +34,7 @@ export const createApp = () => {
   app.use(express.json());
   app.use(cors());
 
-  const db = createDB()
+  const db = createDB();
 
   const studentsFeature = createStudentsFeature(db);
 

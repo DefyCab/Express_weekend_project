@@ -1,7 +1,5 @@
 import { Router } from "express";
 import { z } from "zod";
-import { v4 as uuidv4 } from "uuid";
-import { error } from "console";
 
 const StudentSchema = z.object({
   name: z.string(),
@@ -37,7 +35,7 @@ export const createStudentsFeature = (db: any) => {
         });
         try {
           if (student.success === true) {
-            const students = await db.createStudent(student.data);
+            const students: Student[] = await db.createStudent(student.data);
             res.status(201).json(students);
           }
         } catch (error) {
@@ -48,7 +46,7 @@ export const createStudentsFeature = (db: any) => {
       router.delete("/:id", async (req, res) => {
         const { id } = req.params;
         const students = await db.deleteStudent(id);
-        res.json(students);
+        res.status(204).json(students);
       });
 
       return router;
