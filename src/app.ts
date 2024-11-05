@@ -10,9 +10,7 @@ const createDB = () => {
   return {
     getAll: async () => await db.select().from(StudentsTable),
 
-    //   getOneStudent: (id: string) => {
-    //     return students.find((student) => student.id === id);
-    //   },
+    getOneStudent: async () => {},
 
     createStudent: async (student: Student) => {
       await db.insert(StudentsTable).values({

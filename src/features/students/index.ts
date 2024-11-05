@@ -24,7 +24,7 @@ export const createStudentsFeature = (db: any) => {
         const { id } = req.params;
         const student: Student = await db.getOneStudent(id);
 
-        res.json(student);
+        res.status(200).json(student)
       });
 
       router.post("/", async (req, res) => {
