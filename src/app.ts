@@ -3,6 +3,15 @@ import { createStudentsFeature } from "./features";
 import cors from "cors";
 import { Student } from "./features";
 import STUDENTS from "./fixtures/students.json";
+import { StudentsTable } from "./drizzle/schema";
+import { db } from "./drizzle/db";
+
+
+const getStudents = async () => {
+  const students: Student[] = await db.select().from(StudentsTable);
+  console.log(students);
+};
+getStudents()
 
 const createDB = () => {
   let students: Student[] = STUDENTS;
@@ -29,21 +38,19 @@ const createDB = () => {
   };
 };
 
-const db = createDB();
-
 export const createApp = () => {
   const app = express();
 
   app.use(express.json());
   app.use(cors());
 
-  const studentsFeature = createStudentsFeature(db);
+  // const studentsFeature = createStudentsFeature(db);
 
   app.get("/", (req, res) => {
     res.json([]);
   });
 
-  app.use("/api/v1/students", studentsFeature.getRouter());
+  // app.use("/api/v1/students", studentsFeature.getRouter());
 
   return app;
 };
