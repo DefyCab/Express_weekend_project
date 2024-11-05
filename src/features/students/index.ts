@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
+import { error } from "console";
 
 const StudentSchema = z.object({
-  id: z.string(),
   name: z.string(),
+  email: z.string(),
+  age: z.number(),
 });
 
 export type Student = z.infer<typeof StudentSchema>;
@@ -29,16 +31,17 @@ export const createStudentsFeature = (db: any) => {
 
       router.post("/", async (req, res) => {
         const student = StudentSchema.safeParse({
-          id: req.body.id,
           name: req.body.name,
+          email: req.body.email,
+          age: req.body.age,
         });
-
-        if (student.success === true) {
-          const students = await db.createStudent(student.data);
-          res.status(201);
-          res.json(students);
-        } else {
-          res.json(student.error);
+        try {
+          if (student.success === true) {
+            const students = await db.createStudent(student.data);
+            res.status(201).json(students);
+          }
+        } catch (error) {
+          res.status(409).json({ message: "Validation Error" });
         }
       });
 
