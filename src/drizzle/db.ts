@@ -3,12 +3,12 @@ import postgres from "postgres";
 import * as schema from "./schema";
 import "dotenv/config";
 
-const databaseUrl = process.env.DATABASE_URL;
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL environment variable is required.");
+const dbUrl = process.env.DATABASE_URL;
+if (!dbUrl) {
+  throw new Error("A database url is required");
 }
 
-const client = postgres(databaseUrl);
+const client = postgres(dbUrl);
 
 export const db = drizzle(client, {
   schema,
