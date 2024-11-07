@@ -54,6 +54,7 @@ export const createApp = () => {
   // drizzle db
   const studentsFeature = createStudentsFeature(db);
 
+  // well?
   app.get("/", (req, res) => {
     res.json([]);
   });
