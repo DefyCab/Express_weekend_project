@@ -30,7 +30,7 @@ export const createStudentsFeature = (db: any) => {
         if (!idSchema.safeParse(id)) {
           res.end({ message: "Wrong Id" });
         }
-        const student: Student = await db.getOneStudent(id);
+        const student: Student = await db.getStudent(id);
         if (student) {
           res.status(200).json(student);
         } else {
@@ -57,33 +57,20 @@ export const createStudentsFeature = (db: any) => {
       // PATCH method to update a student by ID
       router.patch("/:id", async (req: any, res: any) => {
         const { id } = req.params;
+        const body = req.body;
+        const student = await db.getStudent(id);
+        console.log(student)
+        console.log(body)
+        console.log(id)
 
-        if (!idSchema.safeParse(id).success) {
-          return res.status(400).json({ message: "Invalid ID format" });
-        }
+        const updatedStudent = {
+          id: id,
+          name: student.name || body.name,
+          email: student.email || body.email,
+          age: student.age || body.age,
+        };
 
-        const studentToUpdate = StudentSchema.partial().safeParse(req.body);
-        if (!studentToUpdate.success) {
-          return res.status(400).json({
-            message: "Validation Error",
-            errors: studentToUpdate.error.errors,
-          });
-        }
-
-        const existingStudent = await db.getOneStudent(id);
-        if (!existingStudent) {
-          return res.status(404).json({ message: "Student not found" });
-        }
-
-        try {
-          await db.updateStudent(studentToUpdate.data, id);
-          res.status(200).json({ message: "Student updated successfully" });
-        } catch (error) {
-          res.status(500).json({
-            message: "Failed to update student",
-            error: error.message,
-          });
-        }
+        res.json(await db.updateStudent(updatedStudent));
       });
 
       router.delete("/:id", async (req, res) => {

@@ -10,7 +10,7 @@ const createDB = () => {
   return {
     getAll: async () => await db.select().from(StudentsTable),
 
-    getOneStudent: async (id: string) => {
+    getStudent: async (id: string) => {
       const student = await db
         .select()
         .from(StudentsTable)
@@ -26,7 +26,7 @@ const createDB = () => {
       });
     },
 
-    updateStudent: async (id: string, student: Partial<any>) => {
+    updateStudent: async (student: Partial<any>) => {
       await db
         .update(StudentsTable)
         .set({
@@ -34,7 +34,7 @@ const createDB = () => {
           ...(student.email && { name: student.email }),
           ...(student.age && { name: student.age }),
         })
-        .where(eq(StudentsTable.id, id));
+        .where(eq(StudentsTable.id, student.id));
     },
 
     deleteStudent: async (id: string) => {
