@@ -7,9 +7,14 @@ const StudentSchema = z.object({
   age: z.number(),
 });
 
+const idSchema = z.string().uuid();
+
 export type Student = z.infer<typeof StudentSchema>;
 
+// createDB for students
+// db.ts fil
 export const createStudentsFeature = (db: any) => {
+  // const db createdb(drizzledb)
   return {
     getRouter() {
       const router = Router();
@@ -22,9 +27,15 @@ export const createStudentsFeature = (db: any) => {
 
       router.get("/:id", async (req, res) => {
         const { id } = req.params;
+        if (!idSchema.safeParse(id)) {
+          res.end({ message: "Wrong Id" });
+        }
         const student: Student = await db.getOneStudent(id);
-
-        res.status(200).json(student)
+        if (student) {
+          res.status(200).json(student);
+        } else {
+          res.status(404).json({ message: "No student with that Id" });
+        }
       });
 
       router.post("/", async (req, res) => {
@@ -40,6 +51,38 @@ export const createStudentsFeature = (db: any) => {
           }
         } catch (error) {
           res.status(409).json({ message: "Validation Error" });
+        }
+      });
+
+      // PATCH method to update a student by ID
+      router.patch("/:id", async (req: any, res: any) => {
+        const { id } = req.params;
+
+        if (!idSchema.safeParse(id).success) {
+          return res.status(400).json({ message: "Invalid ID format" });
+        }
+
+        const studentToUpdate = StudentSchema.partial().safeParse(req.body);
+        if (!studentToUpdate.success) {
+          return res.status(400).json({
+            message: "Validation Error",
+            errors: studentToUpdate.error.errors,
+          });
+        }
+
+        const existingStudent = await db.getOneStudent(id);
+        if (!existingStudent) {
+          return res.status(404).json({ message: "Student not found" });
+        }
+
+        try {
+          await db.updateStudent(studentToUpdate.data, id);
+          res.status(200).json({ message: "Student updated successfully" });
+        } catch (error) {
+          res.status(500).json({
+            message: "Failed to update student",
+            error: error.message,
+          });
         }
       });
 

@@ -10,7 +10,13 @@ const createDB = () => {
   return {
     getAll: async () => await db.select().from(StudentsTable),
 
-    getOneStudent: async () => {},
+    getOneStudent: async (id: string) => {
+      const student = await db
+        .select()
+        .from(StudentsTable)
+        .where(eq(StudentsTable.id, id));
+      return student;
+    },
 
     createStudent: async (student: Student) => {
       await db.insert(StudentsTable).values({
@@ -18,6 +24,17 @@ const createDB = () => {
         email: student.email,
         age: student.age,
       });
+    },
+
+    updateStudent: async (id: string, student: Partial<any>) => {
+      await db
+        .update(StudentsTable)
+        .set({
+          ...(student.name && { name: student.name }),
+          ...(student.email && { name: student.email }),
+          ...(student.age && { name: student.age }),
+        })
+        .where(eq(StudentsTable.id, id));
     },
 
     deleteStudent: async (id: string) => {
@@ -34,6 +51,7 @@ export const createApp = () => {
 
   const db = createDB();
 
+  // drizzle db
   const studentsFeature = createStudentsFeature(db);
 
   app.get("/", (req, res) => {
