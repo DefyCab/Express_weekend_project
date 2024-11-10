@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "studentId": "a7fe038e-87b8-4405-9e07-bae2ce22ba7a",
+    "courses": [
+      {
+        "name": "History",
+        "status": "Completed",
+        "grade": "A"
+      },
+      {
+        "name": "History",
+        "status": "Completed",
+        "grade": "B"
+      }
+    ]
+  },
+  {
+    "studentId": "2",
+    "courses": [
+      {
+        "name": "History",
+        "status": "Pending",
+        "grade": null
+      },
+      {
+        "name": "Biology",
+        "status": "Pending",
+        "grade": null
+      },
+      {
+        "name": "Chemistry",
+        "status": "Completed",
+        "grade": "C"
+      }
+    ]
+  }
+]
