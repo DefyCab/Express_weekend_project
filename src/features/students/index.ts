@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const StudentSchema = z.object({
   name: z.string(),
-  email: z.string(),
+  email: z.string().email(),
   age: z.number(),
 });
 
@@ -44,33 +44,35 @@ export const createStudentsFeature = (db: any) => {
           email: req.body.email,
           age: req.body.age,
         });
+        console.log(student);
         try {
-          if (student.success === true) {
-            const students: Student[] = await db.createStudent(student.data);
-            res.status(201).json(students);
+          if (!student.success) {
+            throw new Error(student.error?.message);
           }
+          const students: Student[] = await db.createStudent(student.data);
+          res.status(201).json(students);
         } catch (error) {
-          res.status(409).json({ message: "Validation Error" });
+          res.status(409).json({ error: error.message });
         }
       });
 
-      // PATCH method to update a student by ID
       router.patch("/:id", async (req: any, res: any) => {
         const { id } = req.params;
         const body = req.body;
         const student = await db.getStudent(id);
-        console.log(student)
-        console.log(body)
-        console.log(id)
+        console.log(body.name);
 
-        const updatedStudent = {
-          id: id,
-          name: student.name || body.name,
-          email: student.email || body.email,
-          age: student.age || body.age,
-        };
-
-        res.json(await db.updateStudent(updatedStudent));
+        try {
+          const updatedStudent = {
+            id: id,
+            name: body.name || student.name,
+            email: body.email || student.email,
+            age: body.age || student.age,
+          };
+          res.status(200).json(await db.updateStudent(updatedStudent));
+        } catch (error) {
+          res.status(409).json({ error: error.message });
+        }
       });
 
       router.delete("/:id", async (req, res) => {
