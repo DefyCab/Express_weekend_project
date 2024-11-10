@@ -31,8 +31,8 @@ const createDB = () => {
         .update(StudentsTable)
         .set({
           ...(student.name && { name: student.name }),
-          ...(student.email && { name: student.email }),
-          ...(student.age && { name: student.age }),
+          ...(student.email && { email: student.email }),
+          ...(student.age && { age: student.age }),
         })
         .where(eq(StudentsTable.id, student.id));
     },

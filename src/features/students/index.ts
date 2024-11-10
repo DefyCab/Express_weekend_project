@@ -7,6 +7,12 @@ const StudentSchema = z.object({
   age: z.number(),
 });
 
+const updateSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  age: z.number().optional(),
+});
+
 const idSchema = z.string().uuid();
 
 export type Student = z.infer<typeof StudentSchema>;
@@ -44,7 +50,7 @@ export const createStudentsFeature = (db: any) => {
           email: req.body.email,
           age: req.body.age,
         });
-        console.log(student);
+
         try {
           if (!student.success) {
             throw new Error(student.error?.message);
@@ -60,14 +66,23 @@ export const createStudentsFeature = (db: any) => {
         const { id } = req.params;
         const body = req.body;
         const student = await db.getStudent(id);
-        console.log(body.name);
+
+        const updatedValues = updateSchema.safeParse({
+          name: body.name,
+          email: body.email,
+          age: body.age,
+        });
 
         try {
+          if (!updatedValues.success) {
+            throw new Error("Validation error");
+          }
+
           const updatedStudent = {
             id: id,
-            name: body.name || student.name,
-            email: body.email || student.email,
-            age: body.age || student.age,
+            name: updatedValues.data.name || student.name,
+            email: updatedValues.data.email || student.email,
+            age: updatedValues.data.age || student.age,
           };
           res.status(200).json(await db.updateStudent(updatedStudent));
         } catch (error) {
