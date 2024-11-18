@@ -1,7 +1,7 @@
 import { StudentsTable } from "../../drizzle/schema";
 import { db } from "../../drizzle/db";
 import { eq } from "drizzle-orm";
-import { Student } from ".";
+import { Student } from "../students/service"
 
 export const createDB = () => {
   return {

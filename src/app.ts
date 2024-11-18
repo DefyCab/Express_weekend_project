@@ -1,5 +1,5 @@
 import express from "express";
-import { createStudentsFeature } from "./features";
+import { createStudentsFeature } from "./features/students/features";
 import cors from "cors";
 import { createDB } from "./features/students/db";
 
@@ -11,13 +11,13 @@ export const createApp = () => {
 
   const db = createDB();
 
-  const studentsFeature = createStudentsFeature(db);
+  const studentsFeature = createStudentsFeature();
 
   app.get("/", (req, res) => {
     res.json([]);
   });
 
-  app.use("/api/v1/students", studentsFeature.getRouter());
+  app.use("/api/v1/students", studentsFeature.service.getRouter());
 
   return app;
 };
