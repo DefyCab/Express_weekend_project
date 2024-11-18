@@ -6,7 +6,8 @@
     "test": "tsx --test src/*.test.ts",
     "dev": "tsx --watch src/index.ts",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx src/drizzle/migrate.ts"
+    "db:migrate": "tsx src/drizzle/migrate.ts",
+    "studio": "drizzle-kit studio"
   },
   "keywords": [],
   "author": "",
