@@ -1,5 +1,5 @@
 import test, { describe } from "node:test";
-import { createApp } from "../app";
+import { createApp } from "../../app";
 import request from "supertest";
 import { deepEqual } from "node:assert/strict";
 
@@ -20,7 +20,6 @@ describe("Students feature methods", () => {
     const id = "a7fe038e-87b8-4405-9e07-bae2ce22ba7a";
 
     const result = await request(app).get(`/api/v1/students/${id}`);
-
 
     deepEqual(result.status, 200);
     deepEqual(result.body[0].name, "Siv Ersson");
