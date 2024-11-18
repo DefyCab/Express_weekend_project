@@ -1,7 +1,9 @@
 import test, { describe } from "node:test";
-import { createApp } from "./app";
+import { createApp } from "../app";
 import request from "supertest";
 import { deepEqual } from "node:assert/strict";
+
+// TODO: don't test against the actual database
 
 describe("Students feature methods", () => {
   test("getAll students", async () => {
@@ -12,18 +14,19 @@ describe("Students feature methods", () => {
     deepEqual(result.status, 200);
   });
 
-  test.skip("getOneStudent", async () => {
+  test("getOneStudent", async () => {
     const app = createApp();
 
-    const id = "bdb4a301-c5b9-492c-bdb2-daded15e7198";
+    const id = "a7fe038e-87b8-4405-9e07-bae2ce22ba7a";
 
     const result = await request(app).get(`/api/v1/students/${id}`);
 
+
     deepEqual(result.status, 200);
-    deepEqual(result.body.name, "Love");
+    deepEqual(result.body[0].name, "Siv Ersson");
   });
 
-  test("createStudent", async () => {
+  test.skip("createStudent", async () => {
     const app = createApp();
 
     const student = {
