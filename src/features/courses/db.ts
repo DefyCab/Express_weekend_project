@@ -4,5 +4,13 @@ import { CoursesTable } from "../../drizzle/schema";
 export const createDb = () => {
   return {
     getAll: async () => await db.select().from(CoursesTable),
+
+    getStudentsCourses: {},
+
+    getStudentsGraders: {},
+
+    updateCourseStatus: {},
+
+    updateStudentsGrade: {},
   };
 };
