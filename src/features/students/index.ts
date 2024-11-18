@@ -17,10 +17,8 @@ const idSchema = z.string().uuid();
 
 export type Student = z.infer<typeof StudentSchema>;
 
-// createDB for students
-// db.ts fil
 export const createStudentsFeature = (db: any) => {
-  // const db createdb(drizzledb)
+  
   return {
     getRouter() {
       const router = Router();
