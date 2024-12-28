@@ -1,7 +1,6 @@
-import { eq } from "drizzle-orm";
 import { db } from "../../drizzle/db";
+import { eq } from "drizzle-orm";
 import { CoursesTable } from "../../drizzle/schema";
-
 
 export const createDb = () => {
   return {
@@ -9,14 +8,13 @@ export const createDb = () => {
 
     getStudentCourses: async (id: string) => {
       const res = await db
-        .select({ courses: CoursesTable.courses })
-        .from(CoursesTable);
+        .select()
+        .from(CoursesTable)
+        .where(eq(CoursesTable.studentId, id));
 
-      const flat = res.flat().map((student) => student.courses);
+      const courses = res.flatMap((student) => student.courses);
 
-      const retur = flat.flat().map((student) => student);
-
-      return retur;
+      return courses;
     },
 
     getStudentsGraders: {},

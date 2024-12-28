@@ -26,7 +26,8 @@ export const createService = (db: any) => {
       });
 
       router.get("/:id", async (req, res) => {
-        const courses = await db.getStudentCourses();
+        const { id } = req.params;
+        const courses = await db.getStudentCourses(id);
         res.json(courses);
       });
       return router;

@@ -16,7 +16,7 @@ export const createApp = () => {
   const coursesFeature = createCoursesFeature();
 
   app.get("/", (req, res) => {
-    res.json([]);
+    res.send("Goto /api/v1/students or /api/v1/courses");
   });
 
   app.use("/api/v1/students", studentsFeature.service.getRouter());
